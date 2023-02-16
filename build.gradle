@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        // версия языка Ja
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+compileTestJava {
+    //на windows системах используется для того чтобы из-за кодировки не было ошибки
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    // Selenide
+    //подключение Selenide, библиотеки, которые используем когда пишем тест - когда импотрируем
+    testImplementation(
+            "com.codeborne:selenide:6.7.4",
+            'org.junit.jupiter:junit-jupiter:5.9.0',
+            'com.github.javafaker:javafaker:1.0.2'
+    )
+    // опциональная для вывода логов, диагностика для сторонних библиотек
+    //вызывается только в период запуска
+    testRuntimeOnly("org.slf4j:slf4j-simple:2.0.3")
+
+    // JUnit 5
+    //библиотека для использования команд JUnit 5
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
+
+}
+
+test {
+
+    // это говорит о том, что мы используем JUnit 5, а не JUnit 4 - если не будет - то будет искать JUnit 4
+    // и ничего не найдет и не запуститься
+    useJUnitPlatform{}
+}
